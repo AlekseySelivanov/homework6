@@ -17,11 +17,25 @@ public class Main {
             fos2.write("Ты самый лучший!".getBytes());
             fos2.close();
 
-            FileInputStream fis = new FileInputStream("text.txt");
-            System.out.println(fis.read());
-            fis.close();
 
+            InputStream in1 = new FileInputStream("text.txt");
+            byte[] buffer = new byte[1 << 20];
+            OutputStream os = new FileOutputStream(new File("text3.txt"), true);
+            int count;
+            while ((count = in1.read(buffer)) != -1) {
+                os.write(buffer, 0, count);
+                os.flush();
+            }
+            in1.close();
 
+            in = new FileInputStream("text2.txt");
+
+            while ((count = in.read(buffer)) != -1) {
+                os.write(buffer, 0, count);
+                os.flush();
+            }
+            in.close();
+            os.close();
 
         }catch(FileNotFoundException ex){
             ex.printStackTrace();
